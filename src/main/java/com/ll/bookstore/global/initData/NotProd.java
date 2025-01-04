@@ -64,7 +64,11 @@ public class NotProd {
             cartService.addItem(memberUser1, product3);
 
 
+            System.out.println("memberUser1.restCash : " + memberUser1.getRestCash());
+
             memberService.addCash(memberUser1, 100_000, CashLog.EventType.충전__무통장입금, memberUser1);
+            memberService.addCash(memberUser1, -20_000, CashLog.EventType.출금__통장입금, memberUser1);
+            System.out.println("memberUser1.restCash : " + memberUser1.getRestCash());
 
         }
     }

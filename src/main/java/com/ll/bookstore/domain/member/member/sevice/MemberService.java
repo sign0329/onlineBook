@@ -37,6 +37,9 @@ public class MemberService {
 
     public void addCash(Member member, long price, CashLog.EventType eventType, BaseEntity relEntity){
         CashLog cashLog = cashService.addCash(member, price, eventType, relEntity);
+
+        long newRestCash = member.getRestCash() + cashLog.getPrice();
+        member.setRestCash(newRestCash);
     }
 
 }

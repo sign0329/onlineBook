@@ -24,5 +24,7 @@ public class ProductService {
                 .name(book.getTitle())
                 .price(book.getPrice())
                 .build();
+        return product;
     }
+
 }

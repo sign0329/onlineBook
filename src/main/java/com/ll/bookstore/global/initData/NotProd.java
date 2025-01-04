@@ -4,6 +4,8 @@ import com.ll.bookstore.book.book.entity.Book;
 import com.ll.bookstore.book.book.service.BookService;
 import com.ll.bookstore.member.member.entity.Member;
 import com.ll.bookstore.member.member.sevice.MemberService;
+import com.ll.bookstore.product.cart.service.CartService;
+import com.ll.bookstore.product.product.entity.Product;
 import com.ll.bookstore.product.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ public class NotProd {
     private final MemberService memberService;
     private final BookService bookService;
     private final ProductService productService;
+    private final CartService cartService;
 
     @Bean
     ApplicationRunner initNotProd() {
@@ -51,6 +54,14 @@ public class NotProd {
             productService.createProduct(book4);
             productService.createProduct(book5);
             productService.createProduct(book5);
+
+            Product product1 = productService.createProduct(book3);
+            Product product2 = productService.createProduct(book4);
+            Product product3 = productService.createProduct(book5);
+            Product product4 = productService.createProduct(book5);
+            cartService.addItem(memberUser1, product1);
+            cartService.addItem(memberUser1, product2);
+            cartService.addItem(memberUser1, product3);
 
         }
     }

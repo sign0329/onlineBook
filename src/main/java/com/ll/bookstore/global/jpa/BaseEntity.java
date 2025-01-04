@@ -1,5 +1,6 @@
 package com.ll.bookstore.global.jpa;
 
+import com.ll.bookstore.standard.utill.Ut.Ut;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,4 +32,8 @@ public class BaseEntity {
     private LocalDateTime createDate;
     @LastModifiedDate
     private LocalDateTime modifyDate;
+
+    public String getModelName() {
+        return Ut.str.lcfirst(this.getClass().getSimpleName());
+    }
 }

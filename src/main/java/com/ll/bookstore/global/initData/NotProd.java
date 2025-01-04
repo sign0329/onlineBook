@@ -4,12 +4,14 @@ import com.ll.bookstore.book.book.entity.Book;
 import com.ll.bookstore.book.book.service.BookService;
 import com.ll.bookstore.member.member.entity.Member;
 import com.ll.bookstore.member.member.sevice.MemberService;
+import com.ll.bookstore.product.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
@@ -20,6 +22,7 @@ public class NotProd {
     private NotProd self;
     private final MemberService memberService;
     private final BookService bookService;
+    private final ProductService productService;
 
     @Bean
     ApplicationRunner initNotProd() {
@@ -41,5 +44,13 @@ public class NotProd {
             Book book4 = bookService.createBook(memberUser3, "책 제목 4", "책 내용 4", 10000);
             Book book5 = bookService.createBook(memberUser3, "책 제목 5", "책 내용 5", 10000);
             Book book6 = bookService.createBook(memberUser3, "책 제목 6", "책 내용 6", 10000);
+
+            productService.createProduct(book3);
+            productService.createProduct(book4);
+            productService.createProduct(book3);
+            productService.createProduct(book4);
+            productService.createProduct(book5);
+            productService.createProduct(book5);
+
         }
     }

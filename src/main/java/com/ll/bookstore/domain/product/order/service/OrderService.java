@@ -9,6 +9,7 @@ import com.ll.bookstore.domain.product.cart.service.CartService;
 import com.ll.bookstore.domain.product.order.entity.Order;
 import com.ll.bookstore.domain.product.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,7 @@ public class OrderService {
         return order;
     }
 
+    @Transactional
     public void payByCashOnly(Order order){
         Member buyer = order.getBuyer();
         long restCash = buyer.getRestCash();
@@ -53,5 +55,14 @@ public class OrderService {
 
     private void payDone(Order order){
         order.setPaymetDone();
+    }
+
+    public void refund(Order order){
+        long payPrice = order.calcPayPrice();
+
+        memberService.addCash(order.getBuyer(), payPrice, CashLog.EventType.환불__예치금_주문결제,order);
+
+        order.setCancelDone();
+        order.setRefundDone();
     }
 }

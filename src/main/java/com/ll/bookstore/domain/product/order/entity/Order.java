@@ -43,7 +43,7 @@ public class Order extends BaseEntity {
 
     private LocalDateTime payDate; // 결제일
     private LocalDateTime cancelDate; // 취소일
-    private LocalDateTime payRefundDate; // 환불일
+    private LocalDateTime refundDate; // 환불일
 
     public void addItem(CartItem cartItem) {
         OrderItem orderItem = OrderItem.builder()
@@ -61,4 +61,11 @@ public class Order extends BaseEntity {
         payDate = LocalDateTime.now();
     }
 
+    public void setCancelDone() {
+        cancelDate = LocalDateTime.now();
+    }
+
+    public void setRefundDone() {
+        refundDate = LocalDateTime.now();
+    }
 }

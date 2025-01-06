@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
+import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
 @RequiredArgsConstructor
@@ -34,6 +35,7 @@ public class NotProd {
     ApplicationRunner initNotProd() {
         return args -> {
             self.work1();
+            self.work2();
         };
     }
 
@@ -91,5 +93,10 @@ public class NotProd {
             Order order2 = orderService.createFromCart(memberUser3);
             orderService.payByCashOnly(order2);
             orderService.refund(order2);
+        }
+
+        @Transactional
+        public void work2(){
+
         }
     }

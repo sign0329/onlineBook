@@ -4,6 +4,7 @@ package com.ll.bookstore.domain.member.member.entity;
 import com.ll.bookstore.domain.book.book.entity.Book;
 import com.ll.bookstore.domain.member.mybook.entity.MyBook;
 import com.ll.bookstore.domain.product.order.entity.Order;
+import com.ll.bookstore.domain.product.product.entity.Product;
 import com.ll.bookstore.global.jpa.BaseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -47,5 +48,19 @@ public class Member extends BaseEntity {
     public void removeMyBook(Book book){
         myBooks.removeIf(myBook -> myBook.getBook().equals(book));
     }
+
+    public boolean hasBook(Book book){
+        return myBooks
+                .stream()
+                .anyMatch(myBook -> myBook.getBook().equals(book));
+    }
+
+    public boolean has(Product product){
+        return switch (product.getRelTypeCode()){
+            case "book" -> hasBook(product.getBook());
+            default -> false;
+        };
+    }
+
 
 }

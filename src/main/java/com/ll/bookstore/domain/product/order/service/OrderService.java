@@ -8,6 +8,7 @@ import com.ll.bookstore.domain.product.cart.entity.CartItem;
 import com.ll.bookstore.domain.product.cart.service.CartService;
 import com.ll.bookstore.domain.product.order.entity.Order;
 import com.ll.bookstore.domain.product.order.repository.OrderRepository;
+import com.ll.bookstore.global.exceptions.GlobalException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class OrderService {
         long payPrice = order.calcPayPrice();
 
         if (payPrice > restCash){
-            throw new RuntimeException("예치금이 부족합ㄴ디ㅏ.");
+            throw new GlobalException("400-1","예치금이 부족합니다.");
         }
 
         memberService.addCash(buyer, payPrice * -1, CashLog.EventType.환불__예치금_주문결제, order);

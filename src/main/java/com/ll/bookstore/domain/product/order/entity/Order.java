@@ -17,6 +17,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Array;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,11 +41,9 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    private boolean isPaid; //결제여부
-
-    private boolean isCanceled; // 취소여부
-
-    private boolean isRefunded; // 환불여부
+    private LocalDateTime payDate; // 결제일
+    private LocalDateTime cancelDate; // 취소일
+    private LocalDateTime payRefundDate; // 환불일
 
     public void addItem(CartItem cartItem) {
         OrderItem orderItem = OrderItem.builder()
@@ -53,5 +52,13 @@ public class Order extends BaseEntity {
                 .build();
         orderItems.add(orderItem);
     }
-}
+
+    public long calcPayPrice(){
+        return orderItems.stream().mapToLong(OrderItem::getPayprice).sum();
+    }
+
+    public void setPaymetDone(){
+        payDate = LocalDateTime.now();
+    }
+
 }

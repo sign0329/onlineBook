@@ -6,6 +6,8 @@ import com.ll.bookstore.domain.cash.cash.entity.CashLog;
 import com.ll.bookstore.domain.member.member.entity.Member;
 import com.ll.bookstore.domain.member.member.sevice.MemberService;
 import com.ll.bookstore.domain.product.cart.service.CartService;
+import com.ll.bookstore.domain.product.order.entity.Order;
+import com.ll.bookstore.domain.product.order.service.OrderService;
 import com.ll.bookstore.domain.product.product.entity.Product;
 import com.ll.bookstore.domain.product.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class NotProd {
     private final BookService bookService;
     private final ProductService productService;
     private final CartService cartService;
+    private final OrderService orderService;
 
     @Bean
     ApplicationRunner initNotProd() {
@@ -66,9 +70,15 @@ public class NotProd {
 
             System.out.println("memberUser1.restCash : " + memberUser1.getRestCash());
 
-            memberService.addCash(memberUser1, 100_000, CashLog.EventType.충전__무통장입금, memberUser1);
+
+            memberService.addCash(memberUser1, 150_000, CashLog.EventType.충전__무통장입금,memberUser1);
             memberService.addCash(memberUser1, -20_000, CashLog.EventType.출금__통장입금, memberUser1);
             System.out.println("memberUser1.restCash : " + memberUser1.getRestCash());
 
+            Order order1 = orderService.createFromCart(memberUser1);
+
+            long order1PayPrice = order1.calcPayPrice();
+
+            orderService.payByCashOnly(order1);
         }
     }

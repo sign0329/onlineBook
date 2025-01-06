@@ -23,4 +23,8 @@ public class OrderItem extends BaseEntity {
     private Order order;
     @ManyToOne
     private Product product;
+
+    public long getPayprice() {
+        return product.getPrice();
+    }
 }

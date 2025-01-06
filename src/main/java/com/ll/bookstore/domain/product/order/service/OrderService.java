@@ -54,7 +54,7 @@ public class OrderService {
     }
 
     private void payDone(Order order){
-        order.setPaymetDone();
+        order.setPaymentDone();
     }
 
     public void refund(Order order){

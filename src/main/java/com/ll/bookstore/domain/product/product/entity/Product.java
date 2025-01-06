@@ -1,6 +1,8 @@
 package com.ll.bookstore.domain.product.product.entity;
 
+import com.ll.bookstore.domain.book.book.entity.Book;
 import com.ll.bookstore.domain.member.member.entity.Member;
+import com.ll.bookstore.global.app.AppConfig;
 import com.ll.bookstore.global.jpa.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -26,4 +28,8 @@ public class Product extends BaseEntity {
     private long relId;
     private String name;
     private int price;
+
+    public Book getBook() {
+        return AppConfig.getEntityManager().getReference(Book.class, relId);
+    }
 }

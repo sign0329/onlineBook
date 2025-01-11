@@ -77,5 +77,23 @@ public class OrderService {
         return order.calcPayPrice() <=restCash + pgPayPrice;
     }
 
+    public void payByTossPayments(Order order, long pgPayPrice){
+        Member buyer = order.getBuyer();
+        long restCash =  buyer.getRestCash();
+        long payPrice =  order.calcPayPrice();
+
+        long userRestCash = payPrice - pgPayPrice;
+
+        memberService.addCash(buyer, pgPayPrice, CashLog.EventType.충전__토스페이먼츠, order);
+        memberService.addCash(buyer, pgPayPrice * -1, CashLog.EventType.사용__토스페이먼츠_주문결제, order);
+
+        if(userRestCash > 0){
+            if(userRestCash > restCash){
+                throw new RuntimeException("에치금이 부족합니다.");
+            }
+        }
+
+    }
+
 
 }

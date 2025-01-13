@@ -5,6 +5,7 @@ import com.ll.bookstore.domain.member.member.entity.Member;
 import com.ll.bookstore.global.app.AppConfig;
 import com.ll.bookstore.global.jpa.BaseEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

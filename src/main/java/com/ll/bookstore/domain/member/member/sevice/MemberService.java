@@ -1,5 +1,6 @@
 package com.ll.bookstore.domain.member.member.sevice;
 
+import com.ll.bookstore.domain.base.genFile.GenFile;
 import com.ll.bookstore.domain.base.genFile.service.GenFileService;
 import com.ll.bookstore.domain.cash.cash.entity.CashLog;
 import com.ll.bookstore.domain.cash.cash.service.CashService;
@@ -75,6 +76,18 @@ public class MemberService {
         String filePath = Ut.str.hasLength(profileImgUrl) ? Ut.file.downloadFileByHttp(profileImgUrl, AppConfig.getTempDirPath()) : "";
 
         return join(username, "", nickname, filePath);
+    }
+
+    public String getProfileImgUrl(Member member) {
+        return Optional.ofNullable(member)
+                .flatMap(this::findProfileImgUrl)
+                .orElse("https://placehold.co/30x30?text=UU");
+    }
+    private Optional<String> findProfileImgUrl(Member member) {
+        return genFileService.findBy(
+                        member.getModelName(), member.getId(), "common", "profileImg", 1
+                )
+                .map(GenFile::getUrl);
     }
 
 }

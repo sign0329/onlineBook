@@ -12,9 +12,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.beans.factory.annotation.Value;
 
 import static lombok.AccessLevel.PROTECTED;
+
 @Entity
 @Builder
 @AllArgsConstructor(access = PROTECTED)
@@ -45,15 +45,19 @@ public class GenFile extends BaseEntity {
     private String fileExt;
     private String fileDir;
     private String originFileName;
+
     public String getFileName() {
         return getId() + "." + getFileExt();
     }
+
     public String getUrl() {
         return "/gen/" + getFileDir() + "/" + getFileName();
     }
+
     public String getDownloadUrl() {
         return "/domain/genFile/download/" + getId();
     }
+
     public String getFilePath() {
         return AppConfig.getGenFileDirPath() + "/" + getFileDir() + "/" + getFileName();
     }

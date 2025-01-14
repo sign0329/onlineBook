@@ -1,6 +1,7 @@
 package com.ll.bookstore.global.rq;
 
 import com.ll.bookstore.domain.member.member.entity.Member;
+import com.ll.bookstore.domain.member.member.sevice.MemberService;
 import com.ll.bookstore.global.rsData.RsData;
 import com.ll.bookstore.global.security.SecurityUser;
 import com.ll.bookstore.standard.utill.Ut.Ut;
@@ -26,6 +27,7 @@ public class Rq {
     private final HttpServletResponse response;
     private final EntityManager entityManager;
     private Member member;
+    private final MemberService memberService;
 
     public String redirect(String url, String msg) {
         String[] urlBits = url.split("#", 2);
@@ -99,5 +101,9 @@ public class Rq {
             member = entityManager.getReference(Member.class, getUser().getId());
         }
         return member;
+    }
+
+    public String getProfileImgUrl(){
+        return memberService.getProfileImgUrl(getMember());
     }
 }

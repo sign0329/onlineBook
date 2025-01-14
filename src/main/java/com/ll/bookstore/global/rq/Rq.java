@@ -26,6 +26,7 @@ public class Rq {
     private final HttpServletResponse response;
     private final EntityManager entityManager;
     private Member member;
+
     public String redirect(String url, String msg) {
         String[] urlBits = url.split("#", 2);
         url = urlBits[0];
@@ -43,14 +44,17 @@ public class Rq {
         }
         return sb.toString();
     }
+
     public String historyBack(String msg) {
         request.setAttribute("failMsg", msg);
         return "global/js";
     }
+
     public String redirectOrBack(RsData<?> rs, String path) {
         if (rs.isFail()) return historyBack(rs.getMsg());
         return redirect(path, rs.getMsg());
     }
+
     public SecurityUser getUser() {
         return Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
@@ -59,12 +63,15 @@ public class Rq {
                 .map(it -> (SecurityUser) it)
                 .orElse(null);
     }
+
     public boolean isLogin() {
         return getUser() != null;
     }
+
     public boolean isLogout() {
         return !isLogin();
     }
+
     public boolean isAdmin() {
         if (isLogout()) return false;
         return getUser()
@@ -72,9 +79,11 @@ public class Rq {
                 .stream()
                 .anyMatch(it -> it.getAuthority().equals("ROLE_ADMIN"));
     }
+
     public void setAttribute(String key, Object value) {
         request.setAttribute(key, value);
     }
+
     public String getCurrentQueryStringWithoutParam(String paramName) {
         String queryString = request.getQueryString();
         if (queryString == null) {
@@ -83,6 +92,7 @@ public class Rq {
         queryString = Ut.url.deleteQueryParam(queryString, paramName);
         return queryString;
     }
+
     public Member getMember() {
         if (isLogout()) return null;
         if (member == null) {

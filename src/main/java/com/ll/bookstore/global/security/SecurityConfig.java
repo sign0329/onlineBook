@@ -54,10 +54,14 @@ public class SecurityConfig {
                                         .defaultSuccessUrl("/?msg=" + URLEncoder.encode("환영합니다.", StandardCharsets.UTF_8))
                                         .failureUrl("/member/login?failMsg=" + URLEncoder.encode("아이디 또는 비밀번호가 틀렸습니다.", StandardCharsets.UTF_8))
                 )
+                .oauth2Login(
+                        oauth2Login -> oauth2Login
+                                .loginPage("/member/login")
+                )
                 .logout(
                         logout ->
                                 logout
-                                        .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                                        .logoutRequestMatcher(new AntPathRequestMatcher("/memb이er/logout"))
                 );
         return http.build();
     }

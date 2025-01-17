@@ -1,6 +1,7 @@
 package com.ll.bookstore.domain.member.member.sevice;
 
-import com.ll.bookstore.domain.base.genFile.GenFile;
+
+import com.ll.bookstore.domain.base.genFile.entity.GenFile;
 import com.ll.bookstore.domain.base.genFile.service.GenFileService;
 import com.ll.bookstore.domain.cash.cash.entity.CashLog;
 import com.ll.bookstore.domain.cash.cash.service.CashService;
@@ -29,21 +30,25 @@ public class MemberService {
 
     @Transactional
     public RsData<Member> join(String username, String password, String nickname) {
-        return join(username, password, nickname, null);
+        return join(username, password, nickname, "");
+    }
+    @Transactional
+    public RsData<Member> join(String username, String password, String nickname, MultipartFile profileImg) {
+        String profileImgFilePath = Ut.file.toFile(profileImg, AppConfig.getTempDirPath());
+        return join(username, password, nickname, profileImgFilePath);
     }
 
     @Transactional
     public RsData<Member> join(String username, String password, String nickname, String profileImgFilePath) {
         if (findByUsername(username).isPresent()) {
-            return RsData.of("400-2", "이미 존재하는 회원입니다");
+            return RsData.of("400-2", "이미 존재하는 회원입니다.");
         }
 
-        Member member = Member.builder().
-                username(username)
+        Member member = Member.builder()
+                .username(username)
                 .password(passwordEncoder.encode(password))
                 .nickname(nickname)
                 .build();
-
         memberRepository.save(member);
 
         if (Ut.str.hasLength(profileImgFilePath)) {
@@ -54,13 +59,14 @@ public class MemberService {
     }
 
     private void saveProfileImg(Member member, String profileImgFilePath) {
-        genFileService.save(member.getUsername(), member.getId(), "common", "profileImg", 1, profileImgFilePath);
+        genFileService.save(member.getModelName(), member.getId(), "common", "profileImg", 1, profileImgFilePath);
     }
 
     public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
     }
 
+    @Transactional
     public void addCash(Member member, long price, CashLog.EventType eventType, BaseEntity relEntity) {
         CashLog cashLog = cashService.addCash(member, price, eventType, relEntity);
 
@@ -84,15 +90,11 @@ public class MemberService {
                 .flatMap(this::findProfileImgUrl)
                 .orElse("https://placehold.co/30x30?text=UU");
     }
+
     private Optional<String> findProfileImgUrl(Member member) {
         return genFileService.findBy(
                         member.getModelName(), member.getId(), "common", "profileImg", 1
                 )
                 .map(GenFile::getUrl);
-    }
-
-    public RsData<Member> join(String username, String password, String nickname, MultipartFile profileImg) {
-        String profileImgFilePath = Ut.file.toFile(profileImg, AppConfig.getTempDirPath());
-        return join(username, password, nickname, profileImg);
     }
 }

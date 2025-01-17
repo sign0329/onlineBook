@@ -1,4 +1,4 @@
-package com.ll.bookstore.domain.base.genFile;
+package com.ll.bookstore.domain.base.genFile.entity;
 
 import com.ll.bookstore.global.app.AppConfig;
 import com.ll.bookstore.global.jpa.BaseEntity;

@@ -1,6 +1,6 @@
 package com.ll.bookstore.domain.base.genFile.repository;
 
-import com.ll.bookstore.domain.base.genFile.GenFile;
+import com.ll.bookstore.domain.base.genFile.entity.GenFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;

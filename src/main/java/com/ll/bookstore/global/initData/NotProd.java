@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Configuration
 @RequiredArgsConstructor
 public class NotProd {
+
     @Autowired
     @Lazy
     private NotProd self;
@@ -48,6 +49,9 @@ public class NotProd {
             Member memberUser1 = memberService.join("user1", "1234", "유저1").getData();
             Member memberUser2 = memberService.join("user2", "1234", "유저2").getData();
             Member memberUser3 = memberService.join("user3", "1234", "유저3").getData();
+            Member memberUser4 = memberService.join("user4", "1234", "유저4").getData();
+
+
             Book book1 = bookService.createBook(memberUser1, "책 제목 1", "책 내용 1", 10_000);
             Book book2 = bookService.createBook(memberUser2, "책 제목 2", "책 내용 2", 20_000);
             Book book3 = bookService.createBook(memberUser2, "책 제목 3", "책 내용 3", 30_000);
@@ -59,7 +63,6 @@ public class NotProd {
             productService.createProduct(book4);
             productService.createProduct(book3);
             productService.createProduct(book4);
-            productService.createProduct(book5);
             productService.createProduct(book5);
 
 
@@ -99,6 +102,18 @@ public class NotProd {
             Order order3 = orderService.createFromCart(memberUser2);
             orderService.checkCanPay(order3, 55_000);
             //orderService.payTossPayments(order3, 55_000);
+
+
+            memberService.addCash(memberUser4, 50_000, CashLog.EventType.충전__무통장입금, memberUser4);
+
+            cartService.addItem(memberUser4, product1);
+            cartService.addItem(memberUser4, product2);
+            cartService.addItem(memberUser4, product3);
+            cartService.addItem(memberUser3, product3);
+
+
+            Order order4 = orderService.createFromCart(memberUser4);
+
         }
 
         @Transactional

@@ -1,7 +1,7 @@
 package com.ll.bookstore.domain.base.genFile.service;
 
 
-import com.ll.bookstore.domain.base.genFile.GenFile;
+import com.ll.bookstore.domain.base.genFile.entity.GenFile;
 import com.ll.bookstore.domain.base.genFile.repository.GenFileRepository;
 import com.ll.bookstore.domain.member.member.entity.Member;
 import com.ll.bookstore.global.app.AppConfig;
